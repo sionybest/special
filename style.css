@@ -1,5 +1,8 @@
 /* style.css */
 
+/* GOOGLE FONTS ENTEGRASYONU (Türkçe Karakter Destekli) */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap&subset=latin-ext');
+
 /* Renk Paleti ve Temeller */
 :root {
     --hk-kirmizi: #ff0033;
@@ -14,13 +17,15 @@ body {
     /* Arka plana minik noktacıklar ekleyerek daha tatlı bir hava katıyoruz */
     background-image: radial-gradient(var(--hk-soft) 1px, transparent 1px);
     background-size: 20px 20px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    /* Font Comic Sans'tan Quicksand'e çekildi */
+    font-family: 'Quicksand', sans-serif;
+    -webkit-font-smoothing: antialiased; /* Mobilde harflerin pürüzsüz durması için */
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden; /* Taşmaları engellemek için */
 }
 
 /* Ana Kart Tasarımı */
@@ -36,7 +41,7 @@ body {
     z-index: 10;
 }
 
-/* O Meşhur Hello Kitty Kurdelesi */
+/* Hello Kitty Kurdelesi */
 .kurdele {
     position: absolute;
     top: -45px;
@@ -53,7 +58,7 @@ body {
 .sayac-stil {
     font-size: 60px;
     color: var(--hk-kirmizi);
-    font-weight: bold;
+    font-weight: 700; /* Daha kalın ve belirgin */
     text-shadow: 2px 2px 0px var(--hk-soft);
 }
 
@@ -83,11 +88,11 @@ body {
     border: none;
     padding: 12px 20px;
     border-radius: 50px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    font-family: inherit;
+    font-family: 'Quicksand', sans-serif; /* Butonlara fontu zorunlu kıldık */
     transition: 0.3s;
     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
 }
@@ -119,7 +124,7 @@ body {
     padding-top: 15px;
 }
 
-/* Resim Alanları İçin (Anılar Sayfası) */
+/* Resim Alanları İçin */
 img {
     border-radius: 15px;
     transition: opacity 0.3s ease-in-out;
