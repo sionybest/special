@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A&K ❤️ Sonsuz Aşk</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Genel Reset ve Mobil Uyumluluk */
+        * { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #fff0f5; 
+            font-family: 'Comic Sans MS', cursive; 
+            touch-action: manipulation;
+        }
+
+        .kart {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255,105,180,0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        #ana-sayfa-icerik, #sifre-ekrani { display: none; }
+
+        /* Şifre Ekranı Stilleri */
+        .sifre-input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 15px 0; 
+            border: 3px solid #ff69b4; 
+            border-radius: 15px; 
+            text-align: center; 
+            outline: none; 
+            font-size: 16px;
+        }
+
+        /* İltifat Bölümü */
+        #iltifat-gosterici { 
+            min-height: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 15px; 
+            font-style: italic; 
+            color: #ff0033; 
+            font-weight: bold; 
+            transition: opacity 0.3s; 
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .kalp-butonu {
+            font-size: 60px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .kalp-butonu:active { transform: scale(0.7); }
+
+        /* Butonlar ve Navigasyon */
+        .nav-links { 
+            margin-top: 25px; 
+            display: flex; 
+            flex-direction: column; /* Mobilde alt alta daha iyi durur */
+            gap: 12px; 
+        }
+
+        @media (min-width: 600px) {
+            .nav-links { flex-direction: row; } /* PC'de yan yana */
+        }
+
+        .pink-btn {
+            text-decoration: none;
+            padding: 12px 20px;
+            background: #ff69b4;
+            color: white;
+            border-radius: 25px;
+            font-size: 15px;
+            transition: 0.3s;
+            font-weight: bold;
+            flex: 1;
+        }
+        .pink-btn:hover { background: #ff1493; transform: translateY(-2px); }
+
+        .sayac-stil { 
+            font-size: 55px; 
+            color: #ff69b4; 
+            font-weight: bold; 
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+        }
+
+        .kurdele { /* Eğer style.css'de yoksa diye ekledim */
+            height: 10px;
+            background: repeating-linear-gradient(45deg, #ff69b4, #ff69b4 10px, #ff1493 10px, #ff1493 20px);
+            border-radius: 10px 10px 0 0;
+            margin: -25px -25px 20px -25px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sifre-ekrani" class="kart fade-in">
+        <div class="kurdele"></div>
+        <h2 style="color:#ff0033">Giriş Yap Sevgilim 🎀</h2>
+        <p style="font-size: 14px; color: #666;">Tanıştığımız tarih? ✨</p>
+        <input type="text" id="sifre-input" class="sifre-input" placeholder="GG.AA.YYYY" inputmode="numeric">
+        <br>
+        <button class="pink-btn" style="border:none; cursor:pointer; width: 100%;" onclick="sifreKontrol()">Giriş Yap ❤️</button>
+        <p id="hata-mesaji" style="color: red; font-size: 12px; display: none; margin-top: 10px; font-weight: bold;">Yanlış tarih aşkım! ❌</p>
+    </div>
+
+    <div id="ana-sayfa-icerik" class="kart fade-in">
+        <div class="kurdele"></div>
+        
+        <div id="sayac" class="sayac-stil">0</div>
+        <p style="text-align: center; margin-top: 0; color: #ff0033; font-weight: bold;">Gündür Kalbim Seninle...</p>
+        
+        <div id="iltifat-konteynir" style="text-align: center; background: #fff5f7; border-radius: 15px; padding: 10px; margin: 15px 0;">
+            <div id="iltifat-gosterici">Kalbe dokun, sana özel mesajlarımı gör... ✨</div>
+            <div class="kalp-butonu" onclick="iltifatVer(this)">❤️</div>
+        </div>
+
+        <div style="margin-top: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/48vuvN7WR0BbfLykscTJqH?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="nav-links">
+            <a href="test.html" class="pink-btn">Sevgi Testi 💖</a>
+            <a href="anilar.html" class="pink-btn">Anılarımız 📸</a>
+        </div>
+    </div>
+
+    <script>
+        // HAFIZA KONTROLÜ
+        window.onload = function() {
+            if (localStorage.getItem("a_k_giris_onay") === "true") {
+                document.getElementById("ana-sayfa-icerik").style.display = "block";
+                sayacKur();
+            } else {
+                document.getElementById("sifre-ekrani").style.display = "block";
+            }
+        };
+
+        // İLTİFATLAR
+        let iltifatlar = [
+    "Varlığın, bu dünyanın tüm gürültüsünü susturan en zarif melodi.",
+    "Gözlerinde, hiçbir kitabın anlatmaya yetmediği bir evren gizli.",
+    "Seninle susmak, dünyanın en anlamlı şiirini okumak gibi.",
+    "Ruhun, hayatın gri noktalarına vuran en parlak ışık hüzmesi.",
+    "Senin kalbin, nezaketin bu dünyada hala var olduğunun tek kanıtı.",
+    "Bakışlarındaki o derin huzur, tüm fırtınalarımı dindirmeye yetiyor.",
+    "Sen, en karmaşık düşüncelerimi tek bir gülüşünle sadeleştirebilirsin.",
+    "Hayat bir kitapsa, senin olduğun her sayfa benim en sevdiğim bölüm.",
+    "Zihnimin labirentlerinde dolaşırken hep senin zarafetine rastlıyorum.",
+    "Seninle geçen bir dakika, sensiz geçen bin yıla bedel bir derinlikte.",
+    "Sen sadece bir insan değil, ruhumun sığındığı en huzurlu coğrafyasın.",
+    "Karakterindeki asalet, dış güzelliğinden çok daha göz alıcı.",
+    "Gülüşün, kalbimde hiç sönmeyen bir yıldız pırıltısı gibi.",
+    "Senin sevgin, ruhumun üzerine giydiği en korunaklı ve sıcak zırh.",
+    "Dünyadaki hiçbir manzara, senin dalgın bir anındaki kadar huzur veremez.",
+    "Sen benim dualarımın en zarif, en beklenmedik karşılığısın.",
+    "Sesin, en karanlık gecelerimde yolumu bulmamı sağlayan pusulam.",
+    "Seninle tanıştığım an, hayatımın geri kalanının başlangıç çizgisiydi.",
+    "Kalbindeki o ince sızıya bile aşığım; çünkü o senin merhametinden geliyor.",
+    "Sen, hayatın tüm zorluklarına karşı içimde büyüttüğüm o bitmez umutsun.",
+    "Zarafetin sadece hareketlerinde değil, düşüncelerinin en ince detayında bile var.",
+    "Seninle aynı gökyüzüne bakmak, bu dünyadaki en büyük ortaklığım.",
+    "Ruhun, keşfedilmeyi bekleyen ve her köşesinde ayrı bir huzur saklayan bir cennet.",
+    "Seninleyken kendimin en iyi versiyonu olmayı öğreniyorum.",
+    "Bakışlarındaki o masumiyet, bu dünyanın kirini pasını kalbimden siliyor.",
+    "Sen benim sessizliğimin en güzel kelimesi, kalbimin en derin cümlesisin.",
+    "Gülüşündeki samimiyet, tüm yapmacık dünyaları yıkıp geçiyor.",
+    "Sen, benim hikayemin en güzel tesadüfü ve en doğru kararıydın.",
+    "Senin sevginle beslenen bir kalp, asla yaşlanmaz ve kurumaz.",
+    "Herkes giderken senin kalman değil, senin ruhunun bende kalıcı olması mucize.",
+    "Dünya çok kalabalık ama senin yanın benim tek kişilik sığınağım.",
+    "Seninle geçen her gün, ömrüme eklenen bir ödül gibi.",
+    "Sana bakınca sadece bir yüz değil, tamamlanmış bir hayat görüyorum.",
+    "Kalbinin ritmi, dünyadaki en güven verici ritim.",
+    "Senin zekanın ve ruhunun derinliği karşısında her gün yeniden büyüleniyorum.",
+    "Senin nezaketin, en sert kayaları bile yumuşatacak bir güce sahip.",
+    "Sesindeki o huzur, hiçbir ilaçla ölçülemeyecek bir şifa.",
+    "Seninle sıradan bir kahve içmek bile bir sanat eserine dönüşüyor.",
+    "Senin ellerini tutmak, tüm dünyayı kontrol edebilecekmişim hissi veriyor.",
+    "Seni sevmek, kendimi bulmamı sağlayan en güzel yolculuk.",
+    "Senin varlığın, varlığıma anlam katan en büyük gerçeklik.",
+    "Seninle ilgili her küçük detay, zihnimin en kıymetli köşesinde saklı.",
+    "Gözlerin, karanlıkta yolunu kaybetmiş bir geminin gördüğü ilk fener ışığı.",
+    "Seninle gülmek, tüm dertlerin üzerine çekilmiş kalın bir perde gibi.",
+    "Ruhun o kadar saf ki, yanındayken dünya daha yaşanılır bir yer oluyor.",
+    "Senin her bir kelimen, ruhumda yeni bir çiçek açtırıyor.",
+    "Zamanın durmasını istediğim tek yer, senin dizlerinin dibi.",
+    "Seninle kurduğumuz hayaller, gerçeğin çok ötesinde bir güzellikte.",
+    "Sen, benim yarım kalan tüm cümlelerimin en güzel sonusun.",
+    "Senin sevgin, bu dünyadaki en adil ve en karşılıksız güç.",
+    "Sana olan hayranlığım, sadece dışına değil, içindeki bitmek bilmeyen ışığa.",
+    "Seninle uyanmak, güneşin doğuşundan çok daha büyük bir mucize.",
+    "Hayatın tüm karmaşasına rağmen, senin yanın her zaman durgun bir göl gibi.",
+    "Senin karakterin, fırtınalarda eğilmeyen ulu bir çınar gibi güven veriyor.",
+    "Senin her bakışında, sanki ilk defa keşfedilen bir kıta var.",
+    "Seni düşünmek bile, en yorgun anımda ruhuma nefes aldırıyor.",
+    "Seninle sessizce oturmak, en kalabalık eğlencelerden daha keyifli.",
+    "Senin gülüşünde, kaybolduğum tüm yolların sonu gizli.",
+    "Sana sahip olmak değil, seninle bir olmak hayatımın amacı.",
+    "Senin kalbinin kapısında beklemek bile, başka kalplerin tahtında olmaktan güzel.",
+    "Senin sevgin, her sabah yeniden uyanmak için en büyük bahanem.",
+    "Seninle tanışmadan önce eksik olduğumu, seni görünce anladım.",
+    "Senin zerafetin, doğanın en güzel dengesi gibi.",
+    "Seni her gün yeniden sevmek, ömrümün en tatlı rutini.",
+    "Seninle geçirdiğim tek bir günün anısı, ömür boyu gülümsememe yeter.",
+    "Sen, kalbimin hiç bilmediği o yabancı ama çok tanıdık dili konuşuyorsun.",
+    "Senin bakışların, ruhumdaki tüm düğümleri tek tek çözüyor.",
+    "Senin varlığın, hayatın bana verdiği en cömert hediye.",
+    "Seninle her şey daha parlak, daha renkli ve daha gerçek.",
+    "Senin sevgin, ruhumun en derin yaralarını kapatan gizli bir merhem.",
+    "Seni sevmek, bu dünyada yapabileceğim en doğru ve en dürüst eylem.",
+    "Seninle el ele yürümek, hayatın tüm yokuşlarını düze çıkarıyor.",
+    "Senin kalbin, içinde kaybolmak isteyeceğim tek labirent.",
+    "Senin her gülüşünde, binlerce yıldız aynı anda parlıyor sanki.",
+    "Seninle olmak, fırtınalı bir denizde güvenli bir kıyıya ulaşmak gibi.",
+    "Senin zihnin, her saniye daha çok hayran kaldığım bir kütüphane.",
+    "Senin sevginle büyüyen her şey, dünyanın en güzel meyvesi olur.",
+    "Sana bakmak, en güzel şiiri hiç bitmeyen bir döngüde okumak gibi.",
+    "Sen, benim kendimi en çok güvende hissettiğim evimsin.",
+    "Seninle tanıştığımdan beri, aynadaki kendimi daha çok seviyorum.",
+    "Senin ruhun, bu dünyaya ait olamayacak kadar saf ve özel.",
+    "Seninle her an, sanki bir mucizenin tam ortasındaymışız gibi.",
+    "Senin sevgin, hayatın bana sunduğu en büyük ve tek gerçek lüks.",
+    "Senin gülüşünde saklı olan o güç, dünyayı yerinden oynatabilir.",
+    "Senin her bir saç telin bile, benim için ayrı bir hikaye.",
+    "Seninle paylaştığımız her nefes, ömrümün en değerli anı.",
+    "Senin kalbinde bir yer edinmek, hayatımın en büyük başarısı.",
+    "Senin sevgin, karanlık odalarımın pencerelerini açan bir rüzgar.",
+    "Seninle her şey eksiksiz, sensiz her şey yarım yamalak.",
+    "Senin bakışlarındaki derinlik, okyanusları bile kıskandıracak kadar eşsiz.",
+    "Sen, benim fırtınalarımın sonunda açan o bembeyaz çiçeksin.",
+    "Seninle geçen bir ömür, seninle geçecek bir dakikadan farksız olacak; her zaman taze.",
+    "Senin sevgin, ruhumun en karanlık gecesinde doğan bir güneş.",
+    "Seninle konuşmak, ruhumun pasını silen en güzel melodi.",
+    "Senin kalbin, merhametin ve sevginin vücut bulmuş hali.",
+    "Seninle hayat, katlanılması gereken bir şey değil, kutlanması gereken bir tören.",
+    "Senin her adımında, dünya biraz daha güzelleşiyor sanki.",
+    "Senin sevgin, benim tüm korkularıma karşı tek sığınağım.",
+    "Seninle her anım, bir sanatçının en değerli tablosu kadar eşsiz.",
+    "Seni sevmek, hayata karşı durduğum en asil tavrım.",
+    "Seninle her şey daha kolay, çünkü sen yanımdayken her şey mümkün.",
+    "Senin ruhundaki o dinginlik, benim tüm kaosumu bitiriyor.",
+    "Senin sevgin, damarlarımda akan kandan daha hayati bir güç.",
+    "Seni tanımak, kaderin bana yaptığı en büyük kıyak.",
+    "Seninle her mevsim bahar, seninle her yer evim.",
+    "Senin bakışların, kalbimdeki en gizli kapıları bile aralıyor.",
+    "Seninle kurduğumuz her hayal, gerçeğe dönüşmek için can atıyor.",
+    "Senin sevginle yıkanan bir ruh, asla kirlenmez.",
+    "Sana olan aşkım, her gün yeniden keşfedilen bir kıta gibi uçsuz bucaksız.",
+    "Senin gülüşünde saklı olan o çocuksu neşe, benim en büyük hazinem.",
+    "Seninle geçen zamanın telafisi yok, çünkü her anı biricik.",
+    "Senin sevgin, hayatımın en zor sorularına verilmiş en basit cevap.",
+    "Seninle her şey olması gerektiği gibi, seninle her şey tam yerinde.",
+    "Senin ruhun, bu dünyanın tüm yorgunluğunu üzerimden alan bir nehir.",
+    "Seninle olmak, en güzel rüyanın hiç bitmemesi gibi bir duygu.",
+    "Senin sevgin, benim en zayıf anımda tutunduğum en güçlü dal.",
+    "Sana bakınca, geleceğimin ne kadar parlak olacağını görebiliyorum.",
+    "Senin her nefesin, benim kalbimde yeni bir ritim başlatıyor.",
+    "Seninle tanıştığım günden beri, dünya benim için çok daha anlamlı.",
+    "Senin sevgin, ruhumun en derin kuyularına düşen bir ışık.",
+    "Seninle her yolculuk, sonu cennete çıkan bir yol gibi.",
+    "Senin kalbinin güzelliği, yüzüne vuran en parlak ay ışığı gibi.",
+    "Seninle her paylaşım, ruhumun biraz daha zenginleşmesi demek.",
+    "Senin sevgin, hayatın tüm acılarını unutturan tatlı bir unutuş.",
+    "Seni sevmek, kendime yapabileceğim en büyük iyilikti.",
+    "Seninle her bakışma, binlerce kelimenin anlatamadığı bir roman.",
+    "Senin ruhun, tüm evrenin özenerek yarattığı bir şaheser.",
+    "Senin sevgin, benim hayatımdaki en büyük ve en sarsılmaz dayanak.",
+    "Seninle her gün, yeniden doğmanın en huzurlu hali.",
+    "Senin gülüşünde saklı olan o cennet, benim tek yaşama sebebim.",
+    "Seni düşünürken kalbimde açan çiçekler, asla solmayacak.",
+    "Senin sevgin, ruhumun en uçsuz bucaksız çöllerindeki tek vaha.",
+    "Seninle her an, bir ömre bedel bir derinlikte ve güzellikte.",
+    "Senin kalbin, merhametin en saf halinin dünyaya yansıması.",
+    "Senin sevginle büyüyen her hayal, gerçeğe giden en kısa yol.",
+    "Sana olan her bakışım, bir öncekinden daha derin ve daha tutkulu.",
+    "Senin ruhun, fırtınalı denizlerde yol gösteren tek kutup yıldızı.",
+    "Senin sevgin, hayatımın en karmaşık döneminde gelen en net cevap.",
+    "Seninle her şey daha sade, daha duru ve daha gerçek.",
+    "Senin her bir kelimen, kalbimde yankılanan en güzel dua.",
+    "Senin sevginle beslenen bir ruh, dünyayı yerinden oynatabilir.",
+    "Senin gülüşün, en karanlık kış günlerini bile yaza çeviriyor.",
+    "Seni sevmek, ömrümün en büyük ve en anlamlı serüveni.",
+    "Senin ruhun, bu dünyaya verilmiş en büyük ve en nadide hediye.",
+    "Senin sevgin, benim tüm yaralarımı sarmaya yetecek kadar büyük.",
+    "Seninle her an, sonsuzluğun bir parçasıymışız gibi hissettiriyor.",
+    "Senin kalbin, sevginin en saf ve en dürüst adresi.",
+    "Senin sevginle aydınlanan bir yol, asla yanlış yere çıkmaz.",
+    "Sana olan hayranlığım, kelimelerin bittiği yerde başlıyor.",
+    "Senin ruhun, en güzel masalların bile anlatamadığı bir masal.",
+    "Senin sevgin, hayatımın en değerli ve en korunması gereken sırrı.",
+    "Seninle her gün, yeniden keşfedilen bir dünya gibi büyüleyici.",
+    "Senin gülüşünde saklı olan huzur, benim tek sığınağım.",
+    "Seni sevmek, hayatın bana verdiği en asil görev.",
+    "Senin ruhun, yıldızların bile gıpta ettiği bir parlaklığa sahip.",
+    "Senin sevgin, benim en yorgun anımda bile beni ayağa kaldıran güç.",
+    "Seninle her an, kalbimde yeni bir şiirin ilk mısrası gibi.",
+    "Senin kalbin, iyiliğin ve şefkatin hiç bitmeyeceği bir pınar.",
+    "Senin sevginle ısınan bir kalp, en soğuk kışlarda bile üşümez.",
+    "Sana olan her sözüm, kalbimin en derininden kopup gelen bir gerçek.",
+    "Senin ruhun, bu evrenin bana sunduğu en büyük mucize.",
+    "Senin sevgin, hayatımın tüm boşluklarını dolduran tek parça.",
+    "Seninle her bakışma, ruhumun bir kez daha arınması demek.",
+    "Senin her bir tebessümün, benim karanlık dünyamı aydınlatan bir şimşek.",
+    "Senin sevginle atan bir kalp, asla umudunu yitirmez.",
+    "Seni sevmek, hayatın tüm zorluklarına karşı taktığım bir madalya.",
+    "Senin ruhun, en derin uykularımdan bile beni uyandıran bir ezgi.",
+    "Senin sevgin, benim en büyük ve en sarsılmaz sığınağım.",
+    "Seninle her gün, bir öncekinden daha güzel ve daha anlamlı.",
+    "Senin gülüşünde saklı olan güç, benim tüm korkularımı siliyor.",
+    "Seni sevmek, ruhumun üzerine giydiği en zarif ve en temiz kıyafet.",
+    "Senin ruhun, bu dünyaya ait olamayacak kadar ince ve kırılgan.",
+    "Senin sevgin, hayatımın en büyük ve en beklenmedik sürprizi.",
+    "Seninle her an, zamanın ötesinde bir boyutta yaşıyormuşuz gibi.",
+    "Senin kalbin, dürüstlüğün ve sadakatin en sağlam kalesi.",
+    "Senin sevginle aydınlanan bir zihin, asla karanlıkta kalmaz.",
+    "Sana olan tutkum, her geçen gün biraz daha derinleşen bir okyanus.",
+    "Senin ruhun, en hüzünlü anlarımda bile beni gülümseten bir sihir.",
+    "Senin sevgin, hayatımın en zor anında tutunduğum en sağlam ip.",
+    "Seninle her şey daha anlamlı, seninle her şey olması gerektiği gibi.",
+    "Senin her bir nefesin, benim hayatıma katılan yeni bir gün.",
+    "Senin sevginle büyüyen bir ruh, asla yaşlanmaz ve solmaz.",
+    "Seni sevmek, kendimi bulmamı sağlayan en kutsal yolculuk.",
+    "Senin ruhun, bu evrende parlayan en eşsiz ve en parlak ışık.",
+    "Senin sevgin, hayatımın tüm eksik parçalarını tamamlayan o son parça.",
+    "Seninle her an, ömrümün en büyük ve en değerli kutlaması.",
+    "Senin kalbin, sevginin ve merhametin hiç bitmeyen okyanusu.",
+    "Senin sevginle ısınan bir ruh, dünyanın tüm soğuğuna kafa tutabilir.",
+    "Sana olan her bakışım, binlerce teşekkürün tek bir anlık özeti.",
+    "Senin ruhun, bu dünyanın tüm kaosuna rağmen koruduğun o eşsiz kale.",
+    "Senin sevgin, hayatımın en derin ve en anlamlı sessizliği.",
+    "Seninle her gün, yeniden başlayan bir hayatın en huzurlu müjdesi.",
+    "Senin gülüşünde saklı olan o sihir, benim tüm dünyamı değiştiriyor.",
+    "Seni sevmek, ruhumun en asil ve en dürüst seçimi.",
+    "Senin ruhun, yıldızların bile sönük kaldığı bir parlaklığa sahip.",
+    "Senin sevgin, benim en zayıf anımda bile beni devleşen bir güce dönüştürüyor.",
+    "Seninle her an, kalbimde yankılanan en tatlı melodi.",
+    "Senin kalbin, nezaketin ve dürüstlüğün hiç kurumayan pınarı.",
+    "Senin sevginle yıkanan bir kalp, tüm kötülüklerden arınır.",
+    "Sana olan her dokunuşum, ruhumun bir kez daha şifa bulması.",
+    "Senin ruhun, bu dünyaya verilmiş en naif ve en derin hediye.",
+    "Senin sevgin, hayatımın tüm gürültüsünü susturan o eşsiz huzur.",
+    "Seninle her bakışma, binlerce yılın özlemini dindiren bir vuslat.",
+    "Senin her bir kelimen, ruhumda yeni bir güneşin doğmasına sebep.",
+    "Senin sevginle beslenen bir kalp, en kurak çölleri bile yeşertebilir.",
+    "Seni sevmek, hayata karşı durduğum en dürüst ve en temiz tavrım.",
+    "Senin ruhun, en hüzünlü şarkıları bile neşeli bir senfoniye dönüştürüyor.",
+    "Senin sevgin, benim en büyük ve en sarsılmaz dayanağım.",
+    "Seninle her gün, bir öncekinden daha fazla sevmek için yeni bir sebep.",
+    "Senin gülüşünde saklı olan o cennet, benim bu dünyadaki tek gerçeğim.",
+    "Seni düşünmek, en gri günlerimi bile gökkuşağına boyuyor.",
+    "Senin ruhun, fırtınalı bir hayatta sığındığım o bembeyaz liman.",
+    "Senin sevgin, benim en karanlık odalarımın kapılarını açan ışık.",
+    "Seninle her an, kalbimde bir öncekinden daha güçlü bir ritim başlatıyor.",
+    "Senin kalbin, sevginin ve dürüstlüğün vücut bulmuş en saf hali.",
+    "Senin sevginle aydınlanan bir yol, asla yanlış bir kapıya çıkmaz.",
+    "Sana olan her sözüm, ruhumun en derin derinliklerinden gelen bir itiraf.",
+    "Senin ruhun, bu evrenin bana sunduğu en büyük ve en nadide ödül.",
+    "Senin sevgin, hayatımın tüm boşluklarını dolduran o devasa parça.",
+    "Seninle her bakışma, ruhumun bir kez daha huzura ermesi demek.",
+    "Senin her bir tebessümün, benim tüm yorgunluklarımı bir anda siliyor.",
+    "Senin sevginle atan bir nabız, asla pes etmez ve yorulmaz.",
+    "Seni sevmek, bu hayatta yapabileceğim en doğru ve en dürüst eylem.",
+    "Senin ruhun, en karanlık gecelerimde bile yolumu aydınlatan bir kutup yıldızı.",
+    "Senin sevgin, hayatımın en zor anında gelen en büyük ve tek mucize.",
+    "Seninle her şey daha berrak, seninle her şey daha anlamlı.",
+    "Senin her bir nefesin, benim hayatıma katılan yeni bir can.",
+    "Senin sevginle büyüyen bir kalp, asla yaşlanmaz ve umudunu yitirmez.",
+    "Seni sevmek, ruhumun en derin ve en kutsal yolculuğu.",
+    "Senin ruhun, bu evrende gördüğüm en eşsiz ve en saf parlaklık.",
+    "Senin sevgin, hayatımın tüm gürültüsünü dindiren o derin sessizlik.",
+    "Seninle her an, ömrümün en büyük ve en unutulmaz başarısı.",
+    "Senin kalbin, merhametin ve sevginin sonsuz ve uçsuz bucaksız denizi.",
+    "Senin sevginle ısınan bir ruh, dünyanın tüm soğuğuna meydan okur.",
+    "Sana olan her bakışım, kalbimin en derininden gelen sessiz bir dua.",
+    "Senin ruhun, bu dünyanın tüm kirliliğine rağmen koruduğun o nadide bahçe.",
+    "Senin sevgin, hayatımın en değerli ve en korunması gereken mücevheri.",
+    "Seninle her gün, yeniden doğmanın en zarif ve en huzurlu şekli.",
+    "Senin gülüşünde saklı olan o büyü, benim tüm hayatımı renklendiriyor.",
+    "Seni sevmek, ruhumun en asil ve en samimi tercihi.",
+    "Senin ruhun, yıldızların bile hayran kaldığı bir zerafete sahip.",
+    "Senin sevgin, benim en zayıf anımda bile beni kahramanlaştıran güç.",
+    "Seninle her an, kalbimde yankılanan en güzel ve en derin şiir.",
+    "Senin kalbin, nezaketin ve şefkatin hiç bitmeyecek olan membaı.",
+    "Senin sevginle yıkanan bir ruh, tüm dertlerinden bir anda kurtulur.",
+    "Sana olan her dokunuşum, ruhumun bir kez daha taze nefes alması.",
+    "Senin ruhun, bu dünyaya verilmiş en ince ve en derin anlam.",
+    "Senin sevgin, hayatımın tüm kaosunu bitiren o eşsiz sakinlik.",
+    "Seninle her bakışma, binlerce yılın özlemini dindiren o büyük vuslat.",
+    "Senin her bir kelimen, ruhumda yeni bir baharın müjdecisi.",
+    "Senin sevginle beslenen bir ruh, en zorlu yolları bile sevdayla aşar.",
+    "Seni sevmek, hayata karşı durduğum en dik ve en dürüst duruşum.",
+    "Senin ruhun, en hüzünlü anlarımı bile birer mutluluk tablosuna dönüştürüyor.",
+    "Senin sevgin, benim en büyük ve en sarsılmaz yaşam enerjim.",
+    "Seninle her gün, seni bir öncekinden daha çok sevmek için yeni bir mucize.",
+    "Senin gülüşünde saklı olan huzur, bu dünyada bulduğum en büyük hazine.",
+    "Seni düşünmek bile, en yorgun anımda ruhuma yeniden hayat veriyor.",
+    "Senin ruhun, fırtınalı bir ömürde sığındığım o dingin ve derin liman.",
+    "Senin sevgin, benim tüm korkularımı yok eden o sonsuz ve sıcak ışık.",
+    "Seninle her an, kalbimde bir öncekinden daha güzel ve daha ritmik bir melodi.",
+    "Senin kalbin, sevginin en saf ve en gerçek haliyle dünyaya yansıması.",
+    "Senin sevginle aydınlanan bir gelecek, asla karanlığa teslim olmaz.",
+    "Sana olan her sözüm, kalbimin en derin odalarından süzülen bir gerçek.",
+    "Senin ruhun, bu evrenin bana sunduğu en büyük ve en paha biçilmez hediye.",
+    "Senin sevgin, hayatımın tüm eksiklerini tamamlayan o dev ve eşsiz parça.",
+    "Seninle her bakışma, ruhumun bir kez daha tam ve bütün hissetmesi.",
+    "Senin her bir tebessümün, benim dünyadaki tüm dertlerimi unutturuyor.",
+    "Senin sevginle atan bir kalp, asla yenilmez ve her daim umutludur.",
+    "Seni sevmek, ömrümün sonuna kadar taşıyacağım en büyük onurum.",
+    "Senin ruhun, en karanlık gecelerimde bile yolumu aydınlatan o eşsiz kutup yıldızı.",
+    "Senin sevgin, hayatımın en zor anında karşıma çıkan en gerçek mucize.",
+    "Seninle her şey daha net, seninle her şey daha huzurlu ve anlamlı.",
+    "Senin her bir nefesin, benim hayatıma can veren o sonsuz taze rüzgar."
+];
+        
+
+        function sifreKontrol() {
+            const input = document.getElementById("sifre-input").value.trim();
+            // Tarih formatını kontrol et
+            if(input === "26.03.2024") {
+                localStorage.setItem("a_k_giris_onay", "true");
+                document.getElementById("sifre-ekrani").style.display = "none";
+                document.getElementById("ana-sayfa-icerik").style.display = "block";
+                sayacKur();
+            } else {
+                const hata = document.getElementById("hata-mesaji");
+                hata.style.display = "block";
+                setTimeout(() => { hata.style.display = "none"; }, 2000);
+            }
+        }
+
+        function iltifatVer(btn) {
+            // Küçük bir kalp atışı animasyonu
+            btn.style.transform = "scale(1.3)";
+            setTimeout(() => { btn.style.transform = "scale(1)"; }, 200);
+
+            const gosterici = document.getElementById("iltifat-gosterici");
+            
+            // Eğer iltifatlar bittiyse listeyi yenile (Sonsuz döngü için)
+            if (iltifatlar.length === 0) {
+                gosterici.innerText = "Mesajlar bitti ama sevgim sonsuz! ❤️";
+                return;
+            }
+
+            const index = Math.floor(Math.random() * iltifatlar.length);
+            gosterici.style.opacity = 0;
+            
+            setTimeout(() => {
+                gosterici.innerText = iltifatlar[index];
+                gosterici.style.opacity = 1;
+                // İstersen iltifatı listeden silme ki sevgilin sürekli basabilsin
+                // iltifatlar.splice(index, 1); 
+            }, 200);
+        }
+
+        function sayacKur() {
+            const baslangic = new Date("2024-03-26");
+            const bugun = new Date();
+            const fark = Math.floor((bugun - baslangic) / (1000 * 60 * 60 * 24));
+            
+            // Sayacı animasyonlu artır (isteğe bağlı ama şık durur)
+            let current = 0;
+            const interval = setInterval(() => {
+                if (current >= fark) {
+                    document.getElementById("sayac").innerText = fark;
+                    clearInterval(interval);
+                } else {
+                    current += Math.ceil(fark/50); // Hızlıca artsın
+                    if(current > fark) current = fark;
+                    document.getElementById("sayac").innerText = current;
+                }
+            }, 20);
+        }
+    </script>
+</body>
+</html>
