@@ -6,6 +6,9 @@
     <title>A&K ❤️ Anılarımız</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* GOOGLE FONTS ENTEGRASYONU (Türkçe Karakter Destekli) */
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap&subset=latin-ext');
+
         /* Mobil ve Genel Ayarlar */
         * { box-sizing: border-box; }
         
@@ -16,30 +19,33 @@
             align-items: center; 
             min-height: 100vh; 
             background-color: #fff0f5; 
-            font-family: 'Comic Sans MS', cursive; 
+            /* Font burada modernleştirildi */
+            font-family: 'Quicksand', sans-serif; 
+            -webkit-font-smoothing: antialiased;
             touch-action: manipulation;
         }
 
         .kart {
-            width: 90%;
+            width: 92%;
             max-width: 400px;
             background: white;
             padding: 20px;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 10px 25px rgba(255,105,180,0.2);
             text-align: center;
             position: relative;
+            border: 1px solid rgba(255, 105, 180, 0.1);
         }
 
-        /* Fotoğraf Alanı - Mobil Uyumlu Yükseklik */
+        /* Fotoğraf Alanı */
         .foto-alani {
             width: 100%;
-            height: 300px; /* Mobilde daha belirgin durması için yükselttik */
+            height: 300px; 
             border-radius: 20px;
             overflow: hidden;
             border: 4px solid #ff69b4;
             margin: 15px 0;
-            background: #f0f0f0;
+            background: #fdf2f5;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -47,67 +53,71 @@
         }
 
         @media (max-width: 400px) {
-            .foto-alani { height: 250px; }
+            .foto-alani { height: 260px; }
         }
 
         #ani-resim {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Resmi bozmadan alanı doldurur */
-            transition: opacity 0.3s ease-in-out;
+            object-fit: cover; 
+            transition: opacity 0.4s ease-in-out;
         }
 
         /* Söz Kutusu */
         .soz-kutusu {
-            min-height: 70px;
+            min-height: 80px;
             color: #ff0033;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 15px;
-            padding: 12px;
+            padding: 15px;
             background: #fff9fa;
-            border-radius: 15px;
+            border-radius: 18px;
             border: 1px dashed #ffb6c1;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: opacity 0.3s ease-in-out;
+            line-height: 1.5;
         }
 
         /* Butonlar */
         .nav-butonlari {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 12px;
             margin-top: 15px;
         }
 
         .btn-style {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             border-radius: 15px;
             border: none;
             cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
             transition: 0.2s;
             font-size: 14px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
         }
-        .btn-style:active { transform: scale(0.95); }
+        
+        .btn-style:active { transform: translateY(2px); box-shadow: none; }
 
         .pink-btn {
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: #ff69b4;
             color: white;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             display: inline-block;
             transition: 0.3s;
-            font-weight: bold;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .kurdele {
-            height: 8px;
+            height: 10px;
             background: #ff69b4;
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 15px -20px;
@@ -118,7 +128,7 @@
 
     <div class="kart fade-in">
         <div class="kurdele"></div>
-        <h2 style="color:#ff0033; margin: 0 0 15px 0; font-size: 1.5rem;">Anılarımız 📸</h2>
+        <h2 style="color:#ff0033; margin: 0 0 15px 0; font-size: 1.6rem; font-weight: 700;">Anılarımız 📸</h2>
 
         <div class="foto-alani">
             <img id="ani-resim" src="https://i.hizliresim.com/cr0wut1.png" alt="Anımız">
@@ -133,7 +143,9 @@
             <button class="btn-style" style="background:#ff69b4; color:white" onclick="degistir(1)">İleri ➡</button>
         </div>
 
-        <a href="index.html" class="pink-btn" style="margin-top: 20px; width: 100%; background: #ff0033;">🏠 Ana Sayfaya Dön</a>
+        <div style="margin-top: 20px;">
+            <a href="index.html" class="pink-btn" style="width: 100%; background: #ff0033; text-align: center;">🏠 Ana Sayfaya Dön</a>
+        </div>
     </div>
 
     <script>
@@ -162,7 +174,6 @@
             const resim = document.getElementById("ani-resim");
             const soz = document.getElementById("ani-soz");
 
-            // Yumuşak geçiş efekti
             resim.style.opacity = 0;
             soz.style.opacity = 0;
 
@@ -171,7 +182,7 @@
                 soz.innerText = anilar[aktifIndex].soz;
                 resim.style.opacity = 1;
                 soz.style.opacity = 1;
-            }, 300);
+            }, 350);
         }
 
         function degistir(yon) {
@@ -181,7 +192,6 @@
             guncelle();
         }
 
-        // Sayfa açıldığında verileri kontrol et ve yükle
         window.onload = () => {
             if(anilar.length > 0) guncelle();
         };
