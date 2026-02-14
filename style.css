@@ -1,0 +1,126 @@
+/* style.css */
+
+/* Renk Paleti ve Temeller */
+:root {
+    --hk-kirmizi: #ff0033;
+    --hk-pembe: #ff69b4;
+    --hk-soft: #ffcad4;
+    --arka-plan: #fff0f5;
+    --beyaz: #ffffff;
+}
+
+body {
+    background-color: var(--arka-plan);
+    /* Arka plana minik noktacıklar ekleyerek daha tatlı bir hava katıyoruz */
+    background-image: radial-gradient(var(--hk-soft) 1px, transparent 1px);
+    background-size: 20px 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Ana Kart Tasarımı */
+.kart {
+    text-align: center;
+    background: var(--beyaz);
+    padding: 35px 25px;
+    border-radius: 40px;
+    border: 8px solid var(--hk-kirmizi);
+    width: 320px;
+    position: relative;
+    box-shadow: 0 15px 0px var(--hk-soft);
+    z-index: 10;
+}
+
+/* O Meşhur Hello Kitty Kurdelesi */
+.kurdele {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 90px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/0/07/Hello_Kitty_bow.svg') no-repeat center;
+    background-size: contain;
+    z-index: 20;
+}
+
+/* Sayı Sayacı Stili */
+.sayac-stil {
+    font-size: 60px;
+    color: var(--hk-kirmizi);
+    font-weight: bold;
+    text-shadow: 2px 2px 0px var(--hk-soft);
+}
+
+/* Kalp Butonu ve Animasyonu */
+.kalp-butonu {
+    font-size: 65px;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.kalp-butonu:active {
+    transform: scale(0.8) !important;
+}
+
+/* Genel Buton Stilleri */
+.btn-style, .pink-btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-family: inherit;
+    transition: 0.3s;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+}
+
+.pink-btn {
+    background: var(--hk-pembe);
+    color: white;
+}
+
+.pink-btn:hover {
+    background: var(--hk-kirmizi);
+    transform: translateY(-2px);
+}
+
+/* Sayfa Geçiş Animasyonu */
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Navigasyon Linkleri Alt Kısım */
+.nav-links {
+    margin-top: 20px;
+    border-top: 2px dashed var(--hk-soft);
+    padding-top: 15px;
+}
+
+/* Resim Alanları İçin (Anılar Sayfası) */
+img {
+    border-radius: 15px;
+    transition: opacity 0.3s ease-in-out;
+}

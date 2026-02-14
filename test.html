@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A&K ❤️ Sevgi Testi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Mobil ve PC Genel Ayarlar */
+        * { box-sizing: border-box; }
+        
+        body { 
+            overflow-x: hidden; 
+            background-color: #fff0f5; 
+            font-family: 'Comic Sans MS', cursive; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            touch-action: manipulation; /* Mobilde hızlı tıklama sağlar */
+        }
+
+        .kart {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255,105,180,0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        /* DEV EVET BUTONU (6. HAYIRDA EKRANI KAPLAR) */
+        .dev-evet {
+            position: fixed !important;
+            top: 0; left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            font-size: 30px !important; /* Mobilde taşmaması için ayarlandı */
+            z-index: 9999 !important;
+            border-radius: 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none !important;
+            background-color: #4CAF50 !important;
+            color: white !important;
+            cursor: pointer;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* HAYIR BUTONU */
+        #hayir-btn { 
+            position: absolute; 
+            transition: 0.15s ease-out; 
+            z-index: 100; 
+            background-color: #ff0033 !important; 
+            color: white !important;
+            border: 2px solid #b30024 !important;
+            box-shadow: 0 4px 15px rgba(255, 0, 51, 0.3);
+            padding: 10px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        
+        /* SONSUZ EKRAN KATMANI */
+        #sonsuz-ekran {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff0f5;
+            overflow-y: auto;
+            z-index: 10000;
+            text-align: center;
+        }
+
+        .sonsuz-metin {
+            font-size: 22px;
+            color: #ff0033;
+            margin: 15px 0;
+            font-weight: bold;
+            display: block;
+        }
+
+        .uyari-ust {
+            position: sticky;
+            top: 0;
+            background: #ff0033;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            z-index: 10001;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .pink-btn {
+            text-decoration: none;
+            padding: 10px 20px;
+            background: #ff69b4;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Hayır butonunun kaçacağı alan */
+        #alan {
+            width: 100%;
+            height: 200px; /* Mobilde taşmaması için ideal yükseklik */
+            position: relative;
+            margin-top: 20px;
+            border: 1px dashed #ffb6c1;
+            border-radius: 15px;
+            overflow: hidden; /* Dışarı taşmayı engeller */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="kart" id="ana-kart">
+        <div id="test-ekrani">
+            <h2 id="soru" style="color: #ff0033; font-size: 1.2rem;">Beni her gün daha çok sevecek misin? 🎀</h2>
+            
+            <button id="evet-btn" style="background:#4CAF50; color:white; border:none; padding:15px 40px; border-radius:15px; cursor:pointer; font-size: 18px; font-weight: bold;" onclick="evetDedim()">EVET! ❤️</button>
+            
+            <div id="alan">
+                <button id="hayir-btn" onmouseover="kac()" onclick="kac()">HAYIR</button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="pink-btn" style="background:#ffb6c1; color: #ff0033;">🏠 Ana Sayfaya Dön</a>
+            </div>
+        </div>
+
+        <div id="sonuc-bolumu" style="display:none; text-align:center;">
+            <h2 style="color:#ff0033;">BİLİYORDUM! ✨</h2>
+            <p>Sevgimi görmek için bas:</p>
+            <button class="pink-btn" style="background:#ff0033; padding:15px 35px;" onclick="sonsuzluguAc()">TIKLA ❤️</button>
+            <br><br>
+            <a href="index.html" class="pink-btn">🏠 Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+    <div id="sonsuz-ekran">
+        <div class="uyari-ust">
+            <p style="margin: 0 0 10px 0; font-weight: bold;">Sona ulaşırsan sevgim bitecek... 🌹</p>
+            <a href="index.html" class="pink-btn" style="background: white; color: #ff0033; font-weight: bold;">🏠 Ana Sayfaya Dön</a>
+        </div>
+        <div id="scroll-icerik"></div>
+    </div>
+
+    <script>
+        let kacmaSayisi = 0;
+        let evetBoyutu = 1;
+
+        function kac() {
+            kacmaSayisi++;
+            const hayir = document.getElementById("hayir-btn");
+            const evet = document.getElementById("evet-btn");
+            const alan = document.getElementById("alan");
+
+            // Butonun alan dışına çıkmaması için sınırlar
+            const maxX = alan.clientWidth - hayir.offsetWidth;
+            const maxY = alan.clientHeight - hayir.offsetHeight;
+            
+            const x = Math.max(0, Math.random() * maxX);
+            const y = Math.max(0, Math.random() * maxY);
+            
+            hayir.style.left = x + "px";
+            hayir.style.top = y + "px";
+
+            if(kacmaSayisi >= 6) {
+                evet.classList.add("dev-evet");
+                evet.innerText = "BAŞKA ŞANSIN YOK!\nEVET ❤️";
+                hayir.style.display = "none";
+            } else {
+                evetBoyutu += 0.4;
+                evet.style.transform = `scale(${evetBoyutu})`;
+                evet.style.zIndex = "1";
+            }
+        }
+
+        function evetDedim() {
+            document.getElementById("test-ekrani").style.display = "none";
+            document.getElementById("sonuc-bolumu").style.display = "block";
+        }
+
+        function sonsuzluguAc() {
+            const ekran = document.getElementById("sonsuz-ekran");
+            const icerik = document.getElementById("scroll-icerik");
+            ekran.style.display = "block";
+
+            for(let i=0; i<300; i++) { mesajEkle(icerik); }
+
+            ekran.onscroll = function() {
+                if (ekran.scrollTop + ekran.clientHeight >= ekran.scrollHeight - 200) {
+                    for(let i=0; i<30; i++) { mesajEkle(icerik); }
+                }
+            };
+        }
+
+        function mesajEkle(hedef) {
+            let span = document.createElement("span");
+            span.className = "sonsuz-metin";
+            span.innerText = "SENİ SEVİYORUM ❤️";
+            hedef.appendChild(span);
+        }
+    </script>
+</body>
+</html>

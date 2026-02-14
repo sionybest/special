@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A&K ❤️ Anılarımız</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Mobil ve Genel Ayarlar */
+        * { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #fff0f5; 
+            font-family: 'Comic Sans MS', cursive; 
+            touch-action: manipulation;
+        }
+
+        .kart {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255,105,180,0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        /* Fotoğraf Alanı - Mobil Uyumlu Yükseklik */
+        .foto-alani {
+            width: 100%;
+            height: 300px; /* Mobilde daha belirgin durması için yükselttik */
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid #ff69b4;
+            margin: 15px 0;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        @media (max-width: 400px) {
+            .foto-alani { height: 250px; }
+        }
+
+        #ani-resim {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Resmi bozmadan alanı doldurur */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Söz Kutusu */
+        .soz-kutusu {
+            min-height: 70px;
+            color: #ff0033;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 12px;
+            background: #fff9fa;
+            border-radius: 15px;
+            border: 1px dashed #ffb6c1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Butonlar */
+        .nav-butonlari {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-style {
+            flex: 1;
+            padding: 12px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        .btn-style:active { transform: scale(0.95); }
+
+        .pink-btn {
+            text-decoration: none;
+            padding: 10px 20px;
+            background: #ff69b4;
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .kurdele {
+            height: 8px;
+            background: #ff69b4;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 15px -20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="kart fade-in">
+        <div class="kurdele"></div>
+        <h2 style="color:#ff0033; margin: 0 0 15px 0; font-size: 1.5rem;">Anılarımız 📸</h2>
+
+        <div class="foto-alani">
+            <img id="ani-resim" src="https://i.hizliresim.com/cr0wut1.png" alt="Anımız">
+        </div>
+
+        <div class="soz-kutusu" id="ani-soz">
+            Yükleniyor... ✨
+        </div>
+
+        <div class="nav-butonlari">
+            <button class="btn-style" style="background:#ffb6c1; color:#ff0033" onclick="degistir(-1)">⬅ Geri</button>
+            <button class="btn-style" style="background:#ff69b4; color:white" onclick="degistir(1)">İleri ➡</button>
+        </div>
+
+        <a href="index.html" class="pink-btn" style="margin-top: 20px; width: 100%; background: #ff0033;">🏠 Ana Sayfaya Dön</a>
+    </div>
+
+    <script>
+        const anilar = [
+            {
+                url: "https://i.hizliresim.com/cr0wut1.png",
+                soz: "Bu anı, kalbimin seninle ilk defa bu kadar hızlı attığı gündü... ❤️"
+            },
+            {
+                url: "https://i.hizliresim.com/da17p4m.png",
+                soz: "Gülüşündeki o ışık, benim tüm dünyamı aydınlatmaya yetti. ✨"
+            },
+            {
+                url: "https://i.hizliresim.com/nuwx4lv.png",
+                soz: "Seninle yan yana olduğumuz her an, hayatımın en güzel karesi. 🎀"
+            },
+            {
+                url: "https://i.hizliresim.com/m9wumbj.png",
+                soz: "Zaman dursa da biz böyle el ele kalsak dediğim o an... 🌹"
+            }
+        ];
+
+        let aktifIndex = 0;
+
+        function guncelle() {
+            const resim = document.getElementById("ani-resim");
+            const soz = document.getElementById("ani-soz");
+
+            // Yumuşak geçiş efekti
+            resim.style.opacity = 0;
+            soz.style.opacity = 0;
+
+            setTimeout(() => {
+                resim.src = anilar[aktifIndex].url;
+                soz.innerText = anilar[aktifIndex].soz;
+                resim.style.opacity = 1;
+                soz.style.opacity = 1;
+            }, 300);
+        }
+
+        function degistir(yon) {
+            aktifIndex += yon;
+            if (aktifIndex >= anilar.length) aktifIndex = 0;
+            if (aktifIndex < 0) aktifIndex = anilar.length - 1;
+            guncelle();
+        }
+
+        // Sayfa açıldığında verileri kontrol et ve yükle
+        window.onload = () => {
+            if(anilar.length > 0) guncelle();
+        };
+    </script>
+</body>
+</html>
